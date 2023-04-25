@@ -152,7 +152,12 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
