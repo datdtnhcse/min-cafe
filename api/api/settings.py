@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     # 'minapp.apps.SdtNccConfig'
 
 ]
-
+CORS_ALLOWED_ORIGINS = [    'http://localhost:3000',]
 CORS_ORGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
@@ -73,6 +73,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'api.urls'

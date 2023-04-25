@@ -40,6 +40,19 @@ def monanApi(request, pk = None):
             monan_serializer.save()
             return JsonResponse("Updated Successfully", safe = False)
         return JsonResponse("Failed to Update")
+    elif request.method == 'POST':
+        text = JSONParser().parse(request)
+        search_text = text['search_text']
+        if search_text:
+            results = MonAn.objects.filter(ten_mon__icontains=search_text)
+            response_data = [{
+                'ma_mon': mon.ma_mon,
+                'ten_mon': mon.ten_mon,
+                'hinh_anh': mon.hinh_anh,
+                'ma_nhom': mon.ma_nhom_id
+            } for mon in results]
+            return JsonResponse(response_data, safe=False)
+        return JsonResponse({'results': []})
         
 @csrf_exempt
 def doanApi(request, pk=None):
