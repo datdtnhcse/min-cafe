@@ -1,5 +1,10 @@
 import { useState } from "react";
 import { Button, TextField } from "@mui/material";
+import monanApi from "../api/monan";
+import doanApi from "../api/doan";
+import timApi from "../api/tim";
+import sizeApi from "../api/size";
+import drinkApi from "../api/drink";
 
 function Add() {
   const [type, setType] = useState(null);
@@ -10,7 +15,7 @@ function Add() {
   const [price, setPrice] = useState("");
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
-  const [sizePrices, setSizePrices] = useState([{ size: "", price: "" }]);
+  const [sizePrices, setSizePrices] = useState([]);
 
   const handleTypeClick = (type) => {
     setType(type);
@@ -23,9 +28,10 @@ function Add() {
   };
 
   const handleAddSizePrice = () => {
-    setSizePrices([...sizePrices, { size: "", price: "" }]);
+    const newId = id || ''; // set id to empty string if it's null
+  
+    setSizePrices([...sizePrices, { ma_nuoc_uong: newId, size: "", don_gia: "" }]);
   };
-
   const handleStartChange = (event) => {
     setStart(event.target.value);
   };
@@ -50,10 +56,36 @@ function Add() {
     setEnd(event.target.value);
   };
 
-  const handleConfirm = () => {
-    // handle confirm logic here
-    console.log("Confirm clicked!");
+  const handleConfirm = async (type) => {
+    try {
+      const basicInfo = { ma_mon: id, ten_mon: name, hinh_anh: image, ma_nhom: group };
+      await monanApi.post(basicInfo);
+  
+      if (type === "food") {
+        const foodPrice = { ma_mon: id, don_gia: price };
+        const tim3 = { ma_do_an: id, bat_dau: start, ket_thuc: end };
+        await doanApi.post(foodPrice);
+        await timApi.post(tim3);
+      }
+  
+      if (type === "drink") {
+        const drink = { ma_mon: id };
+        console.log(drink);
+        await drinkApi.post(drink);
+        
+        for (let i = 0; i < sizePrices.length; i++) {
+          const sizePrice = sizePrices[i];
+          sizePrice.ma_nuoc_uong = id; // set the id for the current object
+          await sizeApi.post(sizePrice); // wait for the post request to complete
+        }
+      }
+  
+      console.log("Successfully added new dish!");
+    } catch (error) {
+      console.error("Error while adding new dish: ", error);
+    }
   };
+  
 
   return (
     <div
@@ -119,7 +151,7 @@ function Add() {
             onChange={handleEndChange}
             style={{ marginBottom: "20px" }}
           />
-          <Button variant="contained" onClick={handleConfirm}>
+          <Button variant="contained" onClick={() => handleConfirm(type)} >
             Confirm
           </Button>
         </div>
@@ -169,8 +201,8 @@ function Add() {
               />
               <TextField
                 label="price"
-                value={sizePrice.price}
-                onChange={handleSizePriceChange(index, "price")}
+                value={sizePrice.don_gia}
+                onChange={handleSizePriceChange(index, "don_gia")}
               />
             </div>
           ))}
@@ -181,7 +213,7 @@ function Add() {
           >
             Add Size and Price
           </Button>
-          <Button variant="contained" onClick={handleConfirm}>
+          <Button variant="contained" onClick={() => handleConfirm(type)}>
             Confirm
           </Button>
         </div>

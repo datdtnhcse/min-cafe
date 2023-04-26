@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from '@mui/material';
 const theme = createTheme({
   typography: {
     fontFamily: [
-      'Ubuntu:300'
+      'Ubuntu:400'
     ].join(','),
   },});
 

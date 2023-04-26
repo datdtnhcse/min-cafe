@@ -22,6 +22,10 @@ const monanApi = {
     const url = `monan/${id}`;
     return axiosClient.get(url);
   },
+  post: (data) => {
+    const url = `monan/`;
+    return axiosClient.put(url, data);
+  }
 
 };
 
