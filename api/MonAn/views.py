@@ -8,6 +8,7 @@ from .models import MonAn
 from .models import DoAn
 from .models import KichThuocNuocUong
 from .models import GioPhucVuDoAn
+from .models import NuocUong
 from .serializers import MonAnSerializer
 from .serializers import DoAnSerializer
 from .serializers import KichThuocNuocUongSerializer
@@ -33,13 +34,20 @@ def monanApi(request, pk = None):
             monans_serializer = MonAnSerializer(monans, many=True)
             return JsonResponse(monans_serializer.data, safe=False)
     elif request.method == 'PUT':
-        monan_data = JSONParser().parse(request)
-        monan = MonAn.objects.get(ma_mon = monan_data['ma_mon'])
-        monan_serializer = MonAnSerializer(monan, data = monan_data)
-        if monan_serializer.is_valid():
-            monan_serializer.save()
-            return JsonResponse("Updated Successfully", safe = False)
-        return JsonResponse("Failed to Update")
+        data = JSONParser().parse(request)
+        new_item = MonAn.objects.create(
+            ma_mon=data['ma_mon'],
+            ten_mon=data['ten_mon'],
+            hinh_anh=data['hinh_anh'],
+            ma_nhom_id=data['ma_nhom']
+        )
+        response_data = {
+            'ma_mon': new_item.ma_mon,
+            'ten_mon': new_item.ten_mon,
+            'hinh_anh': new_item.hinh_anh,
+            'ma_nhom': new_item.ma_nhom_id
+        }
+        return JsonResponse(response_data)
     elif request.method == 'POST':
         text = JSONParser().parse(request)
         search_text = text['search_text']
@@ -53,6 +61,17 @@ def monanApi(request, pk = None):
             } for mon in results]
             return JsonResponse(response_data, safe=False)
         return JsonResponse({'results': []})
+    
+@csrf_exempt
+def nuocuongApi(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        monan = MonAn.objects.get(ma_mon=data['ma_mon'])
+        new_item = NuocUong.objects.create(
+            ma_mon=monan,
+        )
+        return JsonResponse({'message': "Successfully created"})
+       
         
 @csrf_exempt
 def doanApi(request, pk=None):
@@ -71,6 +90,15 @@ def doanApi(request, pk=None):
             doan_serializer.save()
             return JsonResponse("Updated Successfully", safe = False)
         return JsonResponse("Failed to Update")
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        mon_an = MonAn.objects.get(ma_mon=data['ma_mon'])
+        new_item = DoAn.objects.create(
+            ma_mon=mon_an,
+            don_gia=data['don_gia']
+        )
+        return JsonResponse({"message": "Successfully created"})
+        
         
 @csrf_exempt
 def kichthuocnuocuongApi(request, pk=None):
@@ -91,6 +119,15 @@ def kichthuocnuocuongApi(request, pk=None):
             return JsonResponse({"message": "Updated Successfully"})
         else:
             return JsonResponse({"error": "No record found with the provided ma_nuoc_uong and size"})
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        nuoc_uong = NuocUong.objects.get(ma_mon=data['ma_nuoc_uong'])
+        new_item = KichThuocNuocUong.objects.create(
+            ma_nuoc_uong=nuoc_uong,
+            size=data['size'],
+            don_gia=data['don_gia']
+        )
+        return JsonResponse({"message": "Successfully created"})
     
 @csrf_exempt
 def giophucvudoanApi(request, pk=None):
@@ -111,3 +148,12 @@ def giophucvudoanApi(request, pk=None):
             return JsonResponse({"message": "Updated Successfully"})
         else:
             return JsonResponse({"error": "No record found with the provided ma_nuoc_uong and size"})
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        do_an = DoAn.objects.get(ma_mon=data['ma_do_an'])
+        new_item = GioPhucVuDoAn.objects.create(
+            ma_do_an=do_an,
+            bat_dau=data['bat_dau'],
+            ket_thuc=data['ket_thuc']
+        )
+        return JsonResponse({"message": "Successfully created"})

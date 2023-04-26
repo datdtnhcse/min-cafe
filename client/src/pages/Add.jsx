@@ -75,11 +75,10 @@ function Add() {
         
         for (let i = 0; i < sizePrices.length; i++) {
           const sizePrice = sizePrices[i];
-          sizePrice.ma_nuoc_uong = id; // set the id for the current object
-          await sizeApi.post(sizePrice); // wait for the post request to complete
+          sizePrice.ma_nuoc_uong = id; 
+          await sizeApi.post(sizePrice); 
         }
       }
-  
       console.log("Successfully added new dish!");
     } catch (error) {
       console.error("Error while adding new dish: ", error);

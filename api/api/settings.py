@@ -36,29 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    # 'customer.apps.CustomerConfig'
     'MonAn.apps.MonanConfig'
-    # 'minapp.apps.BanConfig'
-    # 'minapp.apps.BanHoaDonConfig'
-    # 'minapp.apps.CungCapConfig'
-    # 'minapp.apps.DoAnConfig'
-    # 'minapp.apps.EmailNccConfig'
-    # 'minapp.apps.GioPhucVuDoAnConfig'
-    # 'minapp.apps.HoaDonConfig'
-    # 'minapp.apps.HoaDonGomDoAnConfig'
-    # 'minapp.apps.HoaDonGomNuocUongConfig'
-    # 'minapp.apps.KhachHangConfig'
-    # 'minapp.apps.KhuConfig'
-    # 'minapp.apps.LanMuaConfig'
-    # 'minapp.apps.MonAnConfig'
-    # 'minapp.apps.MuaNguyenLieuConfig'
-    # 'minapp.apps.NguyenLieuConfig'
-    # 'minapp.apps.NhaCungCapConfig'
-    # 'minapp.apps.NhomConfig'
-    # 'minapp.apps.NuocUongConfig'
-    # 'minapp.apps.PhongVipConfig'
-    # 'minapp.apps.PhongVipHoaDonConfig'
-    # 'minapp.apps.SdtNccConfig'
 
 ]
 CORS_ALLOWED_ORIGINS = [    'http://localhost:3000',]
@@ -108,8 +86,8 @@ DATABASES = {
     'default': {  
         'ENGINE': 'django.db.backends.mysql',  
         'NAME': 'mincoffee',  
-        'USER': 'root',  
-        'PASSWORD': 'password',  
+        'USER': 'sManager',  
+        'PASSWORD': '123456',  
         'HOST': '127.0.0.1',  
         'PORT': '3306',  
         'OPTIONS': {  

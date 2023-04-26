@@ -3,6 +3,7 @@ from .models import MonAn
 from .models import KichThuocNuocUong
 from .models import DoAn
 from .models import GioPhucVuDoAn
+from .models import NuocUong
 
 
 
@@ -25,6 +26,11 @@ class GioPhucVuDoAnSerializer(serializers.ModelSerializer):
     class Meta:
         model = GioPhucVuDoAn
         fields = ['ma_do_an', 'bat_dau', 'ket_thuc']
+        
+class NuocUongSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NuocUong
+        fields = ['ma_nuoc_uong']
         
         
 # class NuocUongSerializers(serializers.ModelSerializer):
