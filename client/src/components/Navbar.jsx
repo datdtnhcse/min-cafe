@@ -12,7 +12,7 @@ const Navbar = () => {
           <InfoOutlined />
         </IconButton>
 
-        <IconButton color="inherit">
+        <IconButton color="inherit" component={RouterLink} to="/add">
           <AddCircleOutlineOutlined />
         </IconButton>
         <IconButton color="inherit">

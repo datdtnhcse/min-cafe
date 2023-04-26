@@ -37,7 +37,7 @@ function Info() {
   // );
 
   return (
-    <Box bgcolor="primary.main" color="white" minHeight="100vh">
+    <Box bgcolor="white" color="primary.main" minHeight="100vh">
       <Container maxWidth="lg" sx={{ pt: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           List
@@ -82,7 +82,7 @@ function Info() {
                           sx={{ width: 200 }}
                         />
                       </Box>
-                      <CardContent>
+                      <CardContent sx={{ backgroundColor: "#689af8" }}>
                         <Typography gutterBottom variant="h5" component="div" sx={{ textDecoration: "none", color: "black" }}>
                           {dish.ten_mon}
                         </Typography>
